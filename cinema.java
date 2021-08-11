@@ -41,10 +41,12 @@ public class Cinema {
                     showSeats(arr);
                     break;
                 case 2:
-                    buyTicket(arr, currInc, ticket);
+                    int addInc = buyTicket(arr, currInc, ticket);
+                    currInc += addInc;
+                    ticket++;
                     break;
                 case 3:
-                    showStatistics(arr, ticket, currInc, totalIncome);
+                    showStatistics(arr, ticket, currInc, totalIncome, allSeats);
                     break;
                 default:
                     System.out.println("Wrong input!");
@@ -73,7 +75,7 @@ public class Cinema {
         }
     }
     
-    public static void buyTicket(char[][] arr, int inc, int ticket) {
+    public static int buyTicket(char[][] arr, int inc, int ticket) {
         Scanner scanner = new Scanner(System.in);
         
         while (true) {
@@ -92,25 +94,22 @@ public class Cinema {
                 if (arr.length * arr[0].length > 60) {
                     if (rn > arr.length / 2) {
                         System.out.println("Ticket price: $8");
-                        inc += 8;
+                        return 8;
                     } else {
                         System.out.println("Ticket price: $10");
-                        inc += 10;
+                        return 10;
                     } 
                 } else {
                     System.out.println("Ticket price: $10");
-                    inc += 10;
+                    return 10;
                 }
-                ticket += 1;
-                System.out.println(ticket + "XXXXXXXXXXXXXXXXXXXXX");
-                break;
             }
         }
     }
-    public static void showStatistics(char[][] arr, int ticket, int inc, int totInc) {
+    public static void showStatistics(char[][] arr, int ticket, int inc, int totInc, int allSeats) {
         System.out.println("Number of purchased tickets: " + ticket);
         int s = 0;
-        int b = 0;
+        double b = 0;
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[0].length; j++) {
                 if (arr[i][j] == 'S') {
@@ -120,12 +119,13 @@ public class Cinema {
                 }
             }
         }
-        double percentage = b * 100 / s;
-        System.out.println("Percentage: " + String.format("%.2f%%", percentage));
+        double percentage = 100 * b / allSeats;
+        System.out.printf("Percentage: %.2f%%\n", percentage);
         System.out.println("Current income: $" + inc);
         System.out.println("Total income: $" + totInc);
         
     }
+
    
     
 }
